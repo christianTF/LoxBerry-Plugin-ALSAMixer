@@ -1,0 +1,3 @@
+[BASIC]
+HELP_INTRODUCTION="Keine Hilfe verf&uuml;gbar. Bitte besuche das LoxWiki."
+
