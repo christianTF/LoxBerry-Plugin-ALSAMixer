@@ -43,7 +43,7 @@ fi
 
 shopt -s extglob
 
-configfile="/opt/loxberry/config/plugins/amixer/alsamixer.cfg" # set the actual path name of your (DOS or Unix) config file
+configfile="/opt/loxberry/config/plugins/$pluginname/alsamixer.cfg" # set the actual path name of your (DOS or Unix) config file
 tr -d '\r' < $configfile > $configfile.unix
 while IFS='= ' read lhs rhs
 do
