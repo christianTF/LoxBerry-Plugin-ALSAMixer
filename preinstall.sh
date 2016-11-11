@@ -39,7 +39,7 @@ ARGV4=$4 # Forth argument is Plugin version
 ARGV5=$5 # Fifth argument is Base folder of LoxBerry
 # echo "<INFO> Base folder is: $ARGV5"
 
-echo "<INFO> ALSAMixer Plugin makes sure everything is encoded in Unix style (running dos2unix)..."
+echo "<INFO> ALSA Tools Plugin makes sure everything is encoded in Unix style (running dos2unix)..."
 find /tmp/uploads/$ARGV1 -type f -print0 | xargs -0 dos2unix -q 
 echo "<INFO> dos2unix has finished"
 

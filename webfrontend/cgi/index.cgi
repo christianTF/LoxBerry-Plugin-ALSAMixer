@@ -263,7 +263,7 @@ foreach (split(/&/,$ENV{'QUERY_STRING'}))
 		
 		if ( !$header_already_sent ) { print "Content-Type: text/html\n\n"; }
 		
-		$template_title = "ALSA Mixer Webinterface";
+		$template_title = "ALSA Tools Webinterface";
 		
 		# Print Template
 		&lbheader;

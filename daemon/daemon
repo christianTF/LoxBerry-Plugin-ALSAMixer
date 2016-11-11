@@ -6,7 +6,7 @@
 # during installation
 
 if [ -x /usr/bin/logger ]; then
-    /usr/bin/logger -s "loxberry-plugin-$pluginname - DAEMON Script from ALSA Mixer Plugin"
+    /usr/bin/logger -s "loxberry-plugin-$pluginname - DAEMON Script from ALSA Tools Plugin"
 fi
 
 pluginname=$(basename $0 .sh)
