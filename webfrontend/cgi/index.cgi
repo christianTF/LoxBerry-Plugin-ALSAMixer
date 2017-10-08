@@ -84,7 +84,7 @@ my $logmessage;
 ##########################################################################
 
 # Version of this script
-$version = "0.1.1";
+$version = "0.1.2";
 
 # Figure out in which subfolder we are installed
 $pluginname = abs_path($0);
@@ -402,7 +402,7 @@ sub trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
 #####################################################
 
 sub tolog {
-  print strftime("%Y-%m-%d %H:%M:%S", localtime(time)) . " $_[0]: $_[1]\n";
+  # print strftime("%Y-%m-%d %H:%M:%S", localtime(time)) . " $_[0]: $_[1]\n";
   if ($debug) {
 	if ($loghandle) {
 		print $loghandle strftime("%Y-%m-%d %H:%M:%S", localtime(time)) . " $_[0]: $_[1]\n";
