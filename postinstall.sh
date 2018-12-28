@@ -57,6 +57,7 @@ else
 	echo "<OK> This is not a LoxBerry image"
 fi
 
+echo "<INFO> Starting service"
 sudo $LBHOMEDIR/bin/plugins/$ARGV3/startstop-daemon.sh
 
 # Exit with Status 0
