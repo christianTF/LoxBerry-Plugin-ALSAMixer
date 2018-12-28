@@ -2,70 +2,34 @@
 
 # Will be executed as user "root".
 
-# Name this file "daemon.sh" in your plugin-archive. It will be renamed to NAME
-# during installation
+pluginname=REPLACELBPPLUGINDIR
 
-if [ -x /usr/bin/logger ]; then
-    /usr/bin/logger -s "loxberry-plugin-$pluginname - DAEMON Script from ALSA Tools Plugin"
-fi
+/usr/bin/logger -s "loxberry-plugin-$pluginname - DAEMON Script from ALSA Tools Plugin"
 
-pluginname=$(basename $0 .sh)
+# pluginname=alsatools
 
 # Adding user loxberry to group audio
 adduser loxberry audio
 
-# Sudoers V1
-sudoversion=1
-
-#if [ ! -e /opt/loxberry/config/plugins/$pluginname/sudoers.v$sudoversion ]
-#	then
-#		if [ -x /usr/bin/logger ]; then 
-#			/usr/bin/logger "loxberry-plugin-$pluginname - Adding sudoers permissions"
-#		fi
-#		echo %loxberry ALL = NOPASSWD: /usr/bin/squeezelite > /etc/sudoers.d/$pluginname
-#		echo %loxberry ALL = NOPASSWD: /usr/bin/amixer >> /etc/sudoers.d/$pluginname
-#		echo %loxberry ALL = NOPASSWD: /opt/loxberry/webfrontend/cgi/plugins/$pluginname/kill_squeezelite.sh >> /etc/sudoers.d/$pluginname
-#		echo %loxberry ALL = NOPASSWD: /opt/loxberry/webfrontend/cgi/plugins/$pluginname/start_instances.cgi >> /etc/sudoers.d/$pluginname
-#		chmod 0440 /etc/sudoers.d/$pluginname
-#		rm /opt/loxberry/config/plugins/$pluginname/sudoers.*
-#		echo Sudoers V2 > /opt/loxberry/config/plugins/$pluginname/sudoers.v$sudoversion
-# fi
-
 # Change permissions - alsamixer-webui.py +x
-if [ ! -x /opt/loxberry/data/plugins/$pluginname/amixer-webui/alsamixer-webui.py ]; then 
-		if [ -x /usr/bin/logger ]; then 
-			/usr/bin/logger -s "loxberry-plugin-$pluginname - Setting alsamixer-webui.py +x permissions"
-		fi
-		chmod +x /opt/loxberry/data/plugins/$pluginname/amixer-webui/alsamixer-webui.py
+if [ ! -x $LBHOMEDIR/data/plugins/$pluginname/amixer-webui/alsamixer-webui.py ]; then 
+	/usr/bin/logger -s "loxberry-plugin-$pluginname - Setting alsamixer-webui.py +x permissions"
+	chmod +x $LBHOMEDIR/data/plugins/$pluginname/amixer-webui/alsamixer-webui.py
 fi
 
 # Kill it first
 pkill -f alsamixer-webui.py
 
-# Config file parsing (http://stackoverflow.com/a/20815951/3466839)
+. $LBHOMEDIR/libs/bashlib/iniparser.sh
 
-shopt -s extglob
+iniparser $LBPCONFIG/$pluginname/alsamixer.cfg "Main"
 
-configfile="/opt/loxberry/config/plugins/$pluginname/alsamixer.cfg" # set the actual path name of your (DOS or Unix) config file
-tr -d '\r' < $configfile > $configfile.unix
-while IFS='= ' read lhs rhs
-do
-    if [[ ! $lhs =~ ^\ *# && -n $lhs ]]; then
-        rhs="${rhs%%\#*}"    # Del in line right comments
-        rhs="${rhs%%*( )}"   # Del trailing spaces
-        rhs="${rhs%\"*}"     # Del opening string quotes 
-        rhs="${rhs#\"*}"     # Del closing string quotes 
-        declare $lhs="$rhs"
-    fi
-done < $configfile.unix
-# Config file parsing end
-
+/usr/bin/logger -s "loxberry-plugin-$pluginname - Config variable enabled: $Mainenabled"
+	
 # Check if mixer is enabled in config
-if [ "$enabled" -ne "true" ]; then
+if [ "$Mainenabled" != "true" ]; then
     # If not enabled, leave.
-	if [ -x /usr/bin/logger ]; then 
-		/usr/bin/logger -s "loxberry-plugin-$pluginname - Config variable enabled not true (is: [$enabled]) - Exiting."
-	fi
+	/usr/bin/logger -s "enabled not true - Exiting."
 	exit;
 fi
 
@@ -73,10 +37,9 @@ fi
 [[ !  -z  $port  ]] && port="19579"
 
 # Run the webservice
-	if [ -x /usr/bin/logger ]; then 
-		/usr/bin/logger -s "loxberry-plugin-$pluginname - Starting alsamixer-webui on port $port."
-	fi
-cd /opt/loxberry/data/plugins/$pluginname/amixer-webui
-/opt/loxberry/data/plugins/$pluginname/amixer-webui/alsamixer-webui.py $port >/dev/null 2>&1 &
+/usr/bin/logger -s "loxberry-plugin-$pluginname - Starting alsamixer-webui on port $port."
+	
+cd $LBHOMEDIR/data/plugins/$pluginname/amixer-webui
+$LBHOMEDIR/data/plugins/$pluginname/amixer-webui/alsamixer-webui.py $port >/dev/null 2>&1 &
 
 exit 0
