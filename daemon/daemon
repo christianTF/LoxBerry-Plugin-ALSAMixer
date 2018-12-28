@@ -34,7 +34,7 @@ if [ "$Mainenabled" != "true" ]; then
 fi
 
 # If port is empty, set default port
-if [ ! -z "$Mainport" ]; then
+if [ -z "$Mainport" ]; then
 	Mainport="19579"
 fi
 
