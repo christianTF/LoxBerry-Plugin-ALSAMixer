@@ -39,6 +39,9 @@ if [ ! -x /opt/loxberry/data/plugins/$pluginname/amixer-webui/alsamixer-webui.py
 		chmod +x /opt/loxberry/data/plugins/$pluginname/amixer-webui/alsamixer-webui.py
 fi
 
+# Kill it first
+pkill -f alsamixer-webui.py
+
 # Config file parsing (http://stackoverflow.com/a/20815951/3466839)
 
 shopt -s extglob
@@ -63,7 +66,7 @@ if [ "$enabled" -ne "true" ]; then
 	if [ -x /usr/bin/logger ]; then 
 		/usr/bin/logger -s "loxberry-plugin-$pluginname - Config variable enabled not true (is: [$enabled]) - Exiting."
 	fi
-   exit;
+	exit;
 fi
 
 # If port is empty, set default port
