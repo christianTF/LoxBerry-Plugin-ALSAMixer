@@ -34,12 +34,14 @@ if [ "$Mainenabled" != "true" ]; then
 fi
 
 # If port is empty, set default port
-[[ !  -z  $port  ]] && port="19579"
+[[ !  -z  $Mainport  ]]; then
+	Mainport="19579"
+fi
 
 # Run the webservice
 /usr/bin/logger -s "loxberry-plugin-$pluginname - Starting alsamixer-webui on port $port."
 	
 cd $LBHOMEDIR/data/plugins/$pluginname/amixer-webui
-$LBHOMEDIR/data/plugins/$pluginname/amixer-webui/alsamixer-webui.py $port >/dev/null 2>&1 &
+$LBHOMEDIR/data/plugins/$pluginname/amixer-webui/alsamixer-webui.py $Mainport >/dev/null 2>&1 &
 
 exit 0
