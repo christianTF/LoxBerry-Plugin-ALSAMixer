@@ -307,10 +307,16 @@ foreach (split(/&/,$ENV{'QUERY_STRING'}))
 			$cfg->param("Main.debug", "False");
 		}
 		
-		
 		# Run through instance table
 		
 		$cfg->save();
+		
+		# (Re-Start service)
+		my $restart_command = "sudo $installfolder/bin/plugins/$pluginname/startstop-daemon.sh";
+		print STDERR $restart_command . "\n";
+		qx { $restart_command };
+		
+		
 	}
 
 
