@@ -84,7 +84,7 @@ my $logmessage;
 ##########################################################################
 
 # Version of this script
-$version = "0.1.2";
+$version = "0.1.3";
 
 # Figure out in which subfolder we are installed
 $pluginname = abs_path($0);
@@ -254,7 +254,8 @@ foreach (split(/&/,$ENV{'QUERY_STRING'}))
 		}
 		
 		# Query if Mixer-WebUI is running
-		$awui_is_running = `ps ax | grep alsamixer-webui | grep -v grep | awk '{print $1}'`;
+		# $awui_is_running = `ps ax | grep alsamixer-webui | grep -v grep | awk '{print $1}'`;
+		$awui_is_running = `pgrep -f alsamixer-webui.py`;
 		if ($awui_is_running) {
 			$awuirunning = "$T::BASIC_AWUI_SERVICE_RUNNING";
 		} else {
